@@ -1,6 +1,7 @@
 package com.example.shelfy.data
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -11,9 +12,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import com.example.shelfy.navigation.Screens
 
 @Composable
-fun BookItem(book: Book) {
+fun BookItem(book: Book, navController: NavController) {
     Card(
         shape = MaterialTheme.shapes.medium,
         modifier = Modifier.padding(8.dp)
@@ -23,7 +26,10 @@ fun BookItem(book: Book) {
             contentDescription = null,
             modifier = Modifier
                 .fillMaxSize()
-                .aspectRatio(10f / 16f),
+                .aspectRatio(10f / 16f)
+                .clickable {
+                    navController.navigate(Screens.Details.screen)
+                },
             contentScale = ContentScale.Crop
         )
     }

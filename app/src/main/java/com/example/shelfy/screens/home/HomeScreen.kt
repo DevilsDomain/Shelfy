@@ -18,13 +18,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.shelfy.data.BookItem
 import com.example.shelfy.data.FakeData
 
 @Composable
-@Preview
-fun HomeScreen() {
+fun HomeScreen(navController: NavController) {
     val books = FakeData.bookList
 
     Column(
@@ -60,7 +61,7 @@ fun HomeScreen() {
             ) {
 
                 items(books) { book ->
-                    BookItem(book = book)
+                    BookItem(book = book, navController)
                 }
             }
         }
