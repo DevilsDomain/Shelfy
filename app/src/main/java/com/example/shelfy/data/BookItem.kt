@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -16,7 +17,7 @@ import androidx.navigation.NavController
 import com.example.shelfy.navigation.Screens
 
 @Composable
-fun BookItem(book: Book, navController: NavController) {
+fun BookItem(book: Book, navController: NavController, selectedBook: MutableState<Book?>) {
     Card(
         shape = MaterialTheme.shapes.medium,
         modifier = Modifier.padding(8.dp)
@@ -28,6 +29,7 @@ fun BookItem(book: Book, navController: NavController) {
                 .fillMaxSize()
                 .aspectRatio(10f / 16f)
                 .clickable {
+                    selectedBook.value = book
                     navController.navigate(Screens.Details.screen)
                 },
             contentScale = ContentScale.Crop
