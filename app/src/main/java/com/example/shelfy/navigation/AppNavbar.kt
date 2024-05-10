@@ -1,6 +1,7 @@
 package com.example.shelfy.navigation
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
@@ -77,7 +78,7 @@ fun AppNavbar () {
                     }
                 } ,
                     modifier = Modifier.weight(1f)) {
-                    Icon(Icons.Default.DateRange , contentDescription = "home", modifier = Modifier.size(35.dp),
+                    Icon(Icons.Default.DateRange , contentDescription = "timeline", modifier = Modifier.size(35.dp),
                         tint = if(selected.value == Icons.Default.DateRange) Color.White else Color.DarkGray)
                 }
             }
