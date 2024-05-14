@@ -22,14 +22,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.rememberAsyncImagePainter
+import coil.compose.rememberImagePainter
+import coil.request.ImageRequest
 import com.example.shelfy.data.Book
+import com.example.shelfy.model.Item
+import com.example.shelfy.model.VolumeInfo
 
 @Composable
-fun BookSearchResult(book: Book) {
+fun BookSearchResult(item: Item) {
     Card(
         shape = MaterialTheme.shapes.medium, // Rounded corners shape
         modifier = Modifier
@@ -44,8 +50,14 @@ fun BookSearchResult(book: Book) {
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 // Image
+                val painter = rememberAsyncImagePainter(
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data(item.volumeInfo?.imageLinks?.thumbnail)
+                        .build()
+                )
+
                 Image(
-                    painter = painterResource(id = book.imageResId),
+                    painter = painter,
                     contentDescription = null,
                     modifier = Modifier
                         .size(200.dp)
@@ -53,6 +65,7 @@ fun BookSearchResult(book: Book) {
                         .clip(RoundedCornerShape(8.dp)),
                     contentScale = ContentScale.Crop
                 )
+
 
                 Column(
                     modifier = Modifier
@@ -64,22 +77,24 @@ fun BookSearchResult(book: Book) {
                     Box(
                         modifier = Modifier.weight(1f)
                     ) {
-                        // Title, Author, Synopsis
+                        // Title, Authors
                         Column {
                             Text(
-                                text = book.title,
+                                text = item.volumeInfo?.title ?: "",
                                 fontSize = 25.sp,
                                 color = Color.Black,
                                 fontWeight = FontWeight.Bold
                             )
+                            item.volumeInfo?.authors?.let { authors ->
+                                Text(
+                                    text = authors.joinToString(", "),
+                                    fontSize = 18.sp,
+                                    color = Color.Black,
+                                    fontWeight = FontWeight.SemiBold
+                                )
+                            }
                             Text(
-                                text = book.author,
-                                fontSize = 18.sp,
-                                color = Color.Black,
-                                fontWeight = FontWeight.SemiBold
-                            )
-                            Text(
-                                text = book.synopsis,
+                                text = item.volumeInfo?.description ?: "",
                                 fontSize = 16.sp,
                                 maxLines = 5,
                                 color = Color.DarkGray,
@@ -103,3 +118,4 @@ fun BookSearchResult(book: Book) {
         }
     }
 }
+
