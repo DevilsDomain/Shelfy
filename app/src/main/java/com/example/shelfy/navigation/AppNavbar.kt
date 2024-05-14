@@ -27,6 +27,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.shelfy.data.SelectedBook
 import com.example.shelfy.screens.browse.BrowseScreen
+import com.example.shelfy.screens.browse.BrowseViewModel
 import com.example.shelfy.screens.details.DetailsScreen
 import com.example.shelfy.screens.home.HomeScreen
 import com.example.shelfy.screens.timeline.TimelineScreen
@@ -87,7 +88,7 @@ fun AppNavbar () {
         NavHost(navController = navController, startDestination = Screens.Home.screen,
             modifier = Modifier.padding(paddingValues)){
             composable(Screens.Home.screen){ HomeScreen(navController, selectedBook)}
-            composable(Screens.Browse.screen){ BrowseScreen() }
+            composable(Screens.Browse.screen){ BrowseScreen(viewModel = BrowseViewModel()) }
             composable(Screens.Timeline.screen){ TimelineScreen() }
             composable(Screens.Details.screen){ DetailsScreen(selectedBook)}
         }

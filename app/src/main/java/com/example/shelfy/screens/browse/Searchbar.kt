@@ -3,6 +3,7 @@ package com.example.shelfy.screens.browse
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
@@ -21,7 +22,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun Searchbar() {
+fun Searchbar(onSearch: (String) -> Unit) {
     val search = remember { mutableStateOf("") }
     Box(
         modifier = Modifier
@@ -32,10 +33,15 @@ fun Searchbar() {
         TextField(
             value = search.value,
             onValueChange = { value ->
-                    search.value = value
+                search.value = value
             },
-            keyboardOptions = KeyboardOptions.Default.copy(
+            keyboardOptions = KeyboardOptions(
                 imeAction = ImeAction.Search
+            ),
+            keyboardActions = KeyboardActions(
+                onSearch = {
+                    onSearch(search.value)
+                }
             ),
             modifier = Modifier
                 .align(Alignment.TopCenter)
@@ -43,13 +49,16 @@ fun Searchbar() {
                 .padding(top = 20.dp),
             placeholder = { Text("Search books...") },
             singleLine = true,
-            shape = MaterialTheme.shapes.large, // Use a small shape for rounded corners
+            shape = MaterialTheme.shapes.large,
             colors = TextFieldDefaults.colors(
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent
             ),
             leadingIcon = {
-                Icon(imageVector = Icons.Default.Search, contentDescription = "Search Icon" )
+                Icon(
+                    imageVector = Icons.Default.Search,
+                    contentDescription = "Search Icon"
+                )
             }
         )
     }

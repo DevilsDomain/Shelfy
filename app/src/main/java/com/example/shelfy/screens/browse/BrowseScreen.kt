@@ -12,18 +12,14 @@ import androidx.compose.ui.unit.dp
 import com.example.shelfy.data.FakeData
 
 @Composable
-fun BrowseScreen() {
+fun BrowseScreen(viewModel: BrowseViewModel) {
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
-        Searchbar()
-        Spacer(modifier = Modifier.height(5.dp))
-        val books = FakeData.bookList
-
-        LazyColumn {
-            items(books) { book ->
-                BookSearchResult(book = book)
-            }
+        Searchbar { query ->
+            viewModel.searchBooks(query)
         }
+        Spacer(modifier = Modifier.height(5.dp))
+        // Display your book list here
     }
 }
