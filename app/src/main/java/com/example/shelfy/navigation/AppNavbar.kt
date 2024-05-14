@@ -15,8 +15,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -30,6 +32,9 @@ import com.example.shelfy.screens.browse.BrowseScreen
 import com.example.shelfy.screens.browse.BrowseViewModel
 import com.example.shelfy.screens.details.DetailsScreen
 import com.example.shelfy.screens.home.HomeScreen
+import com.example.shelfy.screens.home.tabs.TabFinishedScreen
+import com.example.shelfy.screens.home.tabs.TabNewScreen
+import com.example.shelfy.screens.home.tabs.TabReadingScreen
 import com.example.shelfy.screens.timeline.TimelineScreen
 import com.example.shelfy.ui.theme.LibbyGreen
 
@@ -37,11 +42,13 @@ import com.example.shelfy.ui.theme.LibbyGreen
 @Composable
 fun AppNavbar () {
     val navController = rememberNavController()
-    val context = LocalContext.current.applicationContext
     val selected = remember {
         mutableStateOf(Icons.Default.Home)
     }
     val selectedBook = SelectedBook()
+    val selectedTabIndex = remember { mutableStateOf(-1) }
+
+
 
 
     Scaffold(
@@ -50,6 +57,7 @@ fun AppNavbar () {
                 containerColor = LibbyGreen
             ) {
                 IconButton(onClick = {
+                    selectedTabIndex.value = -1
                     selected.value = Icons.Default.Home
                     navController.navigate(Screens.Home.screen){
                         popUpTo(0)
@@ -57,12 +65,14 @@ fun AppNavbar () {
                 } ,
                     modifier = Modifier.weight(1f)) {
                     Icon(Icons.Default.Home , contentDescription = "home", modifier = Modifier.size(35.dp),
-                        tint = if(selected.value == Icons.Default.Home) Color.White else Color.DarkGray)
+                        tint =
+                        if(selected.value == Icons.Default.Home) Color.White else Color.DarkGray)
                 }
                 Box(modifier = Modifier
                     .weight(1f)
                     .padding(16.dp), contentAlignment = Alignment.Center) {
                     FloatingActionButton(onClick = {
+                        selectedTabIndex.value = -1
                         selected.value = Icons.Default.AddCircle
                         navController.navigate(Screens.Browse.screen){
                             popUpTo(0)
@@ -73,6 +83,7 @@ fun AppNavbar () {
                     }
                 }
                 IconButton(onClick = {
+                    selectedTabIndex.value = -1
                     selected.value = Icons.Default.DateRange
                     navController.navigate(Screens.Timeline.screen){
                         popUpTo(0)
@@ -87,10 +98,15 @@ fun AppNavbar () {
     ) {paddingValues ->
         NavHost(navController = navController, startDestination = Screens.Home.screen,
             modifier = Modifier.padding(paddingValues)){
-            composable(Screens.Home.screen){ HomeScreen(navController, selectedBook)}
+            composable(Screens.Home.screen){ HomeScreen(navController, selectedBook, selectedTabIndex )}
             composable(Screens.Browse.screen){ BrowseScreen(viewModel = BrowseViewModel()) }
             composable(Screens.Timeline.screen){ TimelineScreen() }
             composable(Screens.Details.screen){ DetailsScreen(selectedBook)}
+            composable(Screens.New.screen){ TabNewScreen(navController, selectedTabIndex)}
+            composable(Screens.Reading.screen){ TabReadingScreen(navController, selectedTabIndex) }
+            composable(Screens.Finished.screen){ TabFinishedScreen(navController, selectedTabIndex) }
+
+
         }
 
     }

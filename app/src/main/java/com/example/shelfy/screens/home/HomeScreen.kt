@@ -16,42 +16,27 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.shelfy.data.Book
 import com.example.shelfy.data.BookItem
 import com.example.shelfy.data.FakeData
+import com.example.shelfy.navigation.Screens
+import com.example.shelfy.screens.home.tabs.TabButtons
 
 @Composable
-fun HomeScreen(navController: NavController, selectedBook: MutableState<Book?>) {
+fun HomeScreen(navController: NavController, selectedBook: MutableState<Book?>, selectedTabIndex: MutableState<Int>) {
     val books = FakeData.bookList
+
 
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 30.dp),
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Button(onClick = { /* TODO */ }) {
-                Text(text = "New")
-            }
-            Spacer(modifier = Modifier.width(16.dp))
-            Button(onClick = { /* TODO */ }) {
-                Text(text = "Reading")
-            }
-            Spacer(modifier = Modifier.width(16.dp))
-            Button(onClick = { /* TODO */ }) {
-                Text(text = "Finished")
-            }
-        }
+        TabButtons(navController = navController, selectedTabIndex = selectedTabIndex)
         Column(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Center
@@ -61,14 +46,10 @@ fun HomeScreen(navController: NavController, selectedBook: MutableState<Book?>) 
                 modifier = Modifier.fillMaxSize(),
                 contentPadding = PaddingValues(16.dp)
             ) {
-
                 items(books) { book ->
                     BookItem(book = book, navController, selectedBook)
                 }
             }
         }
     }
-
-
 }
-
