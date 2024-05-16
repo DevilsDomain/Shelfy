@@ -35,7 +35,7 @@ import com.example.shelfy.model.Item
 import com.example.shelfy.model.VolumeInfo
 
 @Composable
-fun BookSearchResult(item: Item) {
+fun BookSearchResult( viewModel: BrowseViewModel, item: Item) {
     Card(
         shape = MaterialTheme.shapes.medium, // Rounded corners shape
         modifier = Modifier
@@ -107,7 +107,7 @@ fun BookSearchResult(item: Item) {
                             .padding(bottom = 20.dp)
                     ) {
                         Button(
-                            onClick = { /* Handle button click */ }
+                            onClick = { viewModel.addBookToShelf(item) }
                         ) {
                             Text(text = "Add")
                         }

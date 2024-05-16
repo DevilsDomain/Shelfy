@@ -26,7 +26,7 @@ fun BrowseScreen(viewModel: BrowseViewModel) {
         Spacer(modifier = Modifier.height(5.dp))
         LazyColumn {
             items(books) { book ->
-                BookSearchResult(item = book)
+                BookSearchResult(viewModel= viewModel, item = book)
             }
         }
     }
