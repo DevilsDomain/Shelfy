@@ -15,28 +15,41 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.RadioButton
+import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.rememberAsyncImagePainter
+import coil.request.ImageRequest
 import com.example.shelfy.R
-import com.example.shelfy.data.Book
+import com.example.shelfy.db.Shelf
+import com.example.shelfy.screens.browse.BrowseViewModel
 import com.example.shelfy.screens.browse.NotesField
+import com.example.shelfy.ui.theme.LibbyGreen
 
 @Composable
-fun DetailsScreen(selectedBook: MutableState<Book?>) {
+fun DetailsScreen(selectedBook: MutableState<Shelf?>, viewModel: DetailsViewModel) {
     val book = selectedBook.value
+    val statuses = listOf("New", "Reading", "Finished")
+
+
+
 
     LazyColumn(
         modifier = Modifier
@@ -59,8 +72,13 @@ fun DetailsScreen(selectedBook: MutableState<Book?>) {
                             .aspectRatio(10f / 16f)
                             .fillMaxSize()
                     ) {
+                        val painter = rememberAsyncImagePainter(
+                            model = ImageRequest.Builder(LocalContext.current)
+                                .data(book!!.imageUrl)
+                                .build()
+                        )
                         Image(
-                            painter = painterResource(id = book.imageResId),
+                            painter = painter,
                             contentDescription = null,
                             modifier = Modifier
                                 .fillMaxSize(),
@@ -70,21 +88,22 @@ fun DetailsScreen(selectedBook: MutableState<Book?>) {
                 }
 
                 Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 16.dp),
-                    horizontalArrangement = Arrangement.Center,
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Button(onClick = { /*TODO*/ }) {
-                        Text(text = "New")
-                    }
-                    Spacer(modifier = Modifier.width(16.dp))
-                    Button(onClick = { /*TODO*/ }) {
-                        Text(text = "Finished")
-                    }
-                    Spacer(modifier = Modifier.width(16.dp))
-                    Button(onClick = { /*TODO*/ }) {
-                        Text(text = "Reading")
+                    statuses.forEach { status ->
+                        Checkbox(
+                            checked = book?.status == status,
+                            onCheckedChange = { isChecked ->
+                                val newStatus =
+                                    if (isChecked) status else "New" // Default to "New" if unchecked
+                                book!!.status = newStatus
+                                viewModel.updateBookStatus(book!!.id, newStatus)
+                            },
+                            colors = CheckboxDefaults.colors(checkmarkColor = LibbyGreen)
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text(text = status)
                     }
                 }
                 Column (
@@ -93,7 +112,7 @@ fun DetailsScreen(selectedBook: MutableState<Book?>) {
                 ) {
                     // Title Text
                     Text(
-                        text = book.title,
+                        text = book.title ?: "",
                         fontSize = 30.sp,
                         fontWeight = FontWeight.Bold,
                         textAlign = TextAlign.Center,
@@ -101,7 +120,7 @@ fun DetailsScreen(selectedBook: MutableState<Book?>) {
 
                     // Author Text
                     Text(
-                        text = book.author,
+                        text = book.author ?: "",
                         fontSize = 22.sp,
                         fontWeight = FontWeight.SemiBold,
                         textAlign = TextAlign.Center,
@@ -110,7 +129,7 @@ fun DetailsScreen(selectedBook: MutableState<Book?>) {
 
                     // Synopsis Text
                     Text(
-                        text = book.synopsis,
+                        text = book.description ?: "",
                         fontSize = 16.sp,
                         textAlign = TextAlign.Justify,
                         modifier = Modifier.padding(horizontal = 20.dp)
@@ -139,8 +158,8 @@ fun DetailsScreen(selectedBook: MutableState<Book?>) {
             }
         }
     }
-}
 
+}
 
 
 

@@ -16,7 +16,7 @@ data class Shelf(
     @ColumnInfo(name = "imageUrl")
     val imageUrl: String?,
     @ColumnInfo(name = "status")
-    val status: String? = "New",
+    var status: String? = "New",
     @ColumnInfo(name = "finishedAt")
     val finishedAt: Long? = null
 )

@@ -10,4 +10,17 @@ class ShelfRepository(private val shelfDao: ShelfDao) {
             shelfDao.insert(book)
         }
     }
+    fun updateBookStatus(id: String, status: String) {
+        AppDatabase.databaseWriteExecutor.execute {
+            shelfDao.updateBookStatus(id, status)
+        }
+    }
+
+    fun getBookById(id: String, callback: (Shelf?) -> Unit) {
+        // Fetch book by ID asynchronously
+        AppDatabase.databaseWriteExecutor.execute {
+            val book = shelfDao.getBookById(id)
+            callback(book)
+        }
+    }
 }

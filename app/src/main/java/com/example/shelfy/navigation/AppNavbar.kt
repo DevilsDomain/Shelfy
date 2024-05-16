@@ -29,7 +29,9 @@ import com.example.shelfy.data.SelectedBook
 import com.example.shelfy.screens.browse.BrowseScreen
 import com.example.shelfy.screens.browse.BrowseViewModel
 import com.example.shelfy.screens.details.DetailsScreen
+import com.example.shelfy.screens.details.DetailsViewModel
 import com.example.shelfy.screens.home.HomeScreen
+import com.example.shelfy.screens.home.HomeViewModel
 import com.example.shelfy.screens.home.tabs.TabFinishedScreen
 import com.example.shelfy.screens.home.tabs.TabNewScreen
 import com.example.shelfy.screens.home.tabs.TabReadingScreen
@@ -99,10 +101,10 @@ fun AppNavbar () {
     ) {paddingValues ->
         NavHost(navController = navController, startDestination = Screens.Home.screen,
             modifier = Modifier.padding(paddingValues)){
-            composable(Screens.Home.screen){ HomeScreen(navController, selectedBook, selectedTabIndex )}
+            composable(Screens.Home.screen){ HomeScreen(navController, viewModel = HomeViewModel(application = applicationContext) ,selectedBook, selectedTabIndex )}
             composable(Screens.Browse.screen){ BrowseScreen(viewModel = BrowseViewModel(application = applicationContext)) }
             composable(Screens.Timeline.screen){ TimelineScreen() }
-            composable(Screens.Details.screen){ DetailsScreen(selectedBook)}
+            composable(Screens.Details.screen){ DetailsScreen(selectedBook = selectedBook, viewModel = DetailsViewModel(application = applicationContext))}
             composable(Screens.New.screen){ TabNewScreen(navController, selectedTabIndex)}
             composable(Screens.Reading.screen){ TabReadingScreen(navController, selectedTabIndex) }
             composable(Screens.Finished.screen){ TabFinishedScreen(navController, selectedTabIndex) }

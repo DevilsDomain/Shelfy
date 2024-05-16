@@ -11,19 +11,28 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import coil.compose.rememberAsyncImagePainter
+import coil.request.ImageRequest
+import com.example.shelfy.db.Shelf
 import com.example.shelfy.navigation.Screens
 
 @Composable
-fun BookItem(book: Book, navController: NavController, selectedBook: MutableState<Book?>) {
+fun BookItem(book: Shelf, navController: NavController, selectedBook: MutableState<Shelf?>) {
     Card(
         shape = MaterialTheme.shapes.medium,
         modifier = Modifier.padding(8.dp)
     ) {
+        val painter = rememberAsyncImagePainter(
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(book.imageUrl)
+                .build()
+        )
         Image(
-            painter = painterResource(id = book.imageResId),
+            painter = painter,
             contentDescription = null,
             modifier = Modifier
                 .fillMaxSize()
