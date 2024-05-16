@@ -23,6 +23,10 @@ import com.example.shelfy.screens.home.tabs.TabButtons
 fun TabFinishedScreen(navController: NavController, selectedTabIndex: MutableState<Int>, viewModel: TabFinishedViewModel, selectedBook: MutableState<Shelf?>) {
     val books by viewModel.finishedBooks.observeAsState()
 
+    val onDeleteBook: (Shelf) -> Unit = { book ->
+        viewModel.repository.deleteBookById(book.id)
+    }
+
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -37,7 +41,7 @@ fun TabFinishedScreen(navController: NavController, selectedTabIndex: MutableSta
                 contentPadding = PaddingValues(16.dp)
             ) {
                 items(books ?: emptyList()) { book ->
-                    BookItem(book = book, navController, selectedBook)
+                    BookItem(book = book, navController, selectedBook, onDeleteBook = { onDeleteBook(book) })
                 }
             }
         }

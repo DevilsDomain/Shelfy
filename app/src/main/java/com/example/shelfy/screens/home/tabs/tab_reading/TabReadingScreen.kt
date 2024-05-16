@@ -22,6 +22,9 @@ import com.example.shelfy.screens.home.tabs.TabButtons
 @Composable
 fun TabReadingScreen(navController: NavController, selectedTabIndex: MutableState<Int>, viewModel: TabReadingViewModel, selectedBook: MutableState<Shelf?>) {
     val books by viewModel.readingBooks.observeAsState()
+    val onDeleteBook: (Shelf) -> Unit = { book ->
+        viewModel.repository.deleteBookById(book.id)
+    }
 
     Column(
         modifier = Modifier.fillMaxSize()
@@ -37,7 +40,7 @@ fun TabReadingScreen(navController: NavController, selectedTabIndex: MutableStat
                 contentPadding = PaddingValues(16.dp)
             ) {
                 items(books ?: emptyList()) { book ->
-                    BookItem(book = book, navController, selectedBook)
+                    BookItem(book = book, navController, selectedBook, onDeleteBook = { onDeleteBook(book) })
                 }
             }
         }

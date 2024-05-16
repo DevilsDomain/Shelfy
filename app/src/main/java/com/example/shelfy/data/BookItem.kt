@@ -1,7 +1,9 @@
 package com.example.shelfy.data
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -20,11 +22,25 @@ import coil.request.ImageRequest
 import com.example.shelfy.db.Shelf
 import com.example.shelfy.navigation.Screens
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun BookItem(book: Shelf, navController: NavController, selectedBook: MutableState<Shelf?>) {
+fun BookItem(
+    book: Shelf,
+    navController: NavController,
+    selectedBook: MutableState<Shelf?>,
+    onDeleteBook: () -> Unit // Add onDeleteBook lambda parameter
+) {
     Card(
         shape = MaterialTheme.shapes.medium,
-        modifier = Modifier.padding(8.dp)
+        modifier = Modifier
+            .padding(8.dp)
+            .combinedClickable(
+                onClick = {
+                    selectedBook.value = book
+                    navController.navigate(Screens.Details.screen)
+                },
+                onLongClick = { onDeleteBook() } // Call onDeleteBook on long press
+            )
     ) {
         val painter = rememberAsyncImagePainter(
             model = ImageRequest.Builder(LocalContext.current)
@@ -36,11 +52,7 @@ fun BookItem(book: Shelf, navController: NavController, selectedBook: MutableSta
             contentDescription = null,
             modifier = Modifier
                 .fillMaxSize()
-                .aspectRatio(10f / 16f)
-                .clickable {
-                    selectedBook.value = book
-                    navController.navigate(Screens.Details.screen)
-                },
+                .aspectRatio(10f / 16f),
             contentScale = ContentScale.Crop
         )
     }

@@ -20,5 +20,10 @@ class ShelfRepository(private val shelfDao: ShelfDao) {
             shelfDao.updateBookStatus(id, status)
         }
     }
+    fun deleteBookById(id: String) {
+        AppDatabase.databaseWriteExecutor.execute {
+            shelfDao.deleteBookById(id)
+        }
+    }
 
 }
