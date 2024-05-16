@@ -23,9 +23,15 @@ import androidx.compose.material3.RadioButton
 import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateMapOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -47,8 +53,20 @@ import com.example.shelfy.ui.theme.LibbyGreen
 fun DetailsScreen(selectedBook: MutableState<Shelf?>, viewModel: DetailsViewModel) {
     val book = selectedBook.value
     val statuses = listOf("New", "Reading", "Finished")
+    val initialStatus = remember { mutableStateMapOf<String, Boolean>().apply {
+        statuses.forEach { status ->
+            this[status] = book?.status == status
+        }
+    } }
 
-
+    fun onStatusRadioButtonClicked(status: String) {
+        book?.let {
+            viewModel.updateBookStatus(it.id, status)
+        }
+        initialStatus.forEach { (key, _) ->
+            initialStatus[key] = key == status
+        }
+    }
 
 
     LazyColumn(
@@ -92,15 +110,10 @@ fun DetailsScreen(selectedBook: MutableState<Shelf?>, viewModel: DetailsViewMode
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     statuses.forEach { status ->
-                        Checkbox(
-                            checked = book?.status == status,
-                            onCheckedChange = { isChecked ->
-                                val newStatus =
-                                    if (isChecked) status else "New" // Default to "New" if unchecked
-                                book!!.status = newStatus
-                                viewModel.updateBookStatus(book!!.id, newStatus)
-                            },
-                            colors = CheckboxDefaults.colors(checkmarkColor = LibbyGreen)
+                        RadioButton(
+                            selected = initialStatus[status] ?: false,
+                            onClick = { onStatusRadioButtonClicked(status) },
+                            colors = RadioButtonDefaults.colors(selectedColor = LibbyGreen)
                         )
                         Spacer(modifier = Modifier.width(8.dp))
                         Text(text = status)
@@ -112,7 +125,7 @@ fun DetailsScreen(selectedBook: MutableState<Shelf?>, viewModel: DetailsViewMode
                 ) {
                     // Title Text
                     Text(
-                        text = book.title ?: "",
+                        text = book!!.title ?: "",
                         fontSize = 30.sp,
                         fontWeight = FontWeight.Bold,
                         textAlign = TextAlign.Center,
@@ -120,7 +133,7 @@ fun DetailsScreen(selectedBook: MutableState<Shelf?>, viewModel: DetailsViewMode
 
                     // Author Text
                     Text(
-                        text = book.author ?: "",
+                        text = book!!.author ?: "",
                         fontSize = 22.sp,
                         fontWeight = FontWeight.SemiBold,
                         textAlign = TextAlign.Center,
@@ -129,7 +142,7 @@ fun DetailsScreen(selectedBook: MutableState<Shelf?>, viewModel: DetailsViewMode
 
                     // Synopsis Text
                     Text(
-                        text = book.description ?: "",
+                        text = book!!.description ?: "",
                         fontSize = 16.sp,
                         textAlign = TextAlign.Justify,
                         modifier = Modifier.padding(horizontal = 20.dp)
