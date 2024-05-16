@@ -32,9 +32,12 @@ import com.example.shelfy.screens.details.DetailsScreen
 import com.example.shelfy.screens.details.DetailsViewModel
 import com.example.shelfy.screens.home.HomeScreen
 import com.example.shelfy.screens.home.HomeViewModel
-import com.example.shelfy.screens.home.tabs.TabFinishedScreen
-import com.example.shelfy.screens.home.tabs.TabNewScreen
-import com.example.shelfy.screens.home.tabs.TabReadingScreen
+import com.example.shelfy.screens.home.tabs.tab_new.TabFinishedScreen
+import com.example.shelfy.screens.home.tabs.tab_new.TabFinishedViewModel
+import com.example.shelfy.screens.home.tabs.tab_new.TabNewScreen
+import com.example.shelfy.screens.home.tabs.tab_new.TabNewViewModel
+import com.example.shelfy.screens.home.tabs.tab_new.TabReadingScreen
+import com.example.shelfy.screens.home.tabs.tab_new.TabReadingViewModel
 import com.example.shelfy.screens.timeline.TimelineScreen
 import com.example.shelfy.ui.theme.LibbyGreen
 
@@ -105,9 +108,9 @@ fun AppNavbar () {
             composable(Screens.Browse.screen){ BrowseScreen(viewModel = BrowseViewModel(application = applicationContext)) }
             composable(Screens.Timeline.screen){ TimelineScreen() }
             composable(Screens.Details.screen){ DetailsScreen(selectedBook = selectedBook, viewModel = DetailsViewModel(application = applicationContext))}
-            composable(Screens.New.screen){ TabNewScreen(navController, selectedTabIndex)}
-            composable(Screens.Reading.screen){ TabReadingScreen(navController, selectedTabIndex) }
-            composable(Screens.Finished.screen){ TabFinishedScreen(navController, selectedTabIndex) }
+            composable(Screens.New.screen){ TabNewScreen(navController, selectedTabIndex, viewModel = TabNewViewModel(application = applicationContext), selectedBook) }
+            composable(Screens.Reading.screen){ TabReadingScreen(navController, selectedTabIndex, viewModel = TabReadingViewModel(application = applicationContext), selectedBook ) }
+            composable(Screens.Finished.screen){ TabFinishedScreen(navController, selectedTabIndex, viewModel = TabFinishedViewModel(application = applicationContext), selectedBook) }
 
 
         }

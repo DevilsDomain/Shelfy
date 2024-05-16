@@ -10,7 +10,8 @@ import androidx.room.Query
 interface ShelfDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(book: Shelf)
-
+    @Query("SELECT * FROM shelf WHERE status = :status")
+    fun getBooksByStatus(status: String): LiveData<List<Shelf>>
     @Query("SELECT * FROM shelf")
     fun getAllBooks(): LiveData<List<Shelf>>
 
@@ -19,8 +20,4 @@ interface ShelfDao {
 
     @Query("UPDATE shelf SET status = :status WHERE id = :id")
     fun updateBookStatus(id: String, status: String)
-
-    @Query("SELECT * FROM shelf WHERE id = :id")
-    fun getBookById(id: String): Shelf?
-
 }
