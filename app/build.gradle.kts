@@ -53,23 +53,25 @@ android {
 }
 
 dependencies {
+    implementation(libs.core.ktx)
     val roomVersion = "2.6.1"
+
+    testImplementation("org.mockito:mockito-core:5.4.0")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:5.0.0")
+    testImplementation("junit:junit:4.13.2")
+    androidTestImplementation("androidx.test.ext:junit:1.1.5")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
     implementation("androidx.room:room-runtime:$roomVersion")
     annotationProcessor("androidx.room:room-compiler:$roomVersion")
-
     ksp("androidx.room:room-compiler:$roomVersion")
-
     implementation("androidx.navigation:navigation-compose:2.7.7")
     implementation("androidx.room:room-ktx:$roomVersion")
-
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-moshi:2.9.0")
     implementation("com.squareup.moshi:moshi-kotlin:1.15.1")
     implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
-
     implementation("androidx.compose.runtime:runtime-livedata:1.6.7")
-
     implementation("io.coil-kt:coil:2.6.0")
     implementation("io.coil-kt:coil-compose:2.6.0")
     implementation ("com.google.accompanist:accompanist-pager:0.27.1")

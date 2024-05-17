@@ -26,6 +26,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.shelfy.data.SelectedBook
+import com.example.shelfy.db.AppDatabase
+import com.example.shelfy.db.ShelfRepository
 import com.example.shelfy.screens.browse.BrowseScreen
 import com.example.shelfy.screens.browse.BrowseViewModel
 import com.example.shelfy.screens.details.DetailsScreen
@@ -53,7 +55,8 @@ fun AppNavbar () {
     val selectedBook = SelectedBook()
     val selectedTabIndex = remember { mutableStateOf(-1) }
     val applicationContext = (LocalContext.current.applicationContext as Application)
-
+    val database = AppDatabase.getDatabase(applicationContext)
+    val repository = ShelfRepository(database.shelfDao())
 
 
 
@@ -108,7 +111,7 @@ fun AppNavbar () {
             composable(Screens.Home.screen){ HomeScreen(navController, viewModel = HomeViewModel(application = applicationContext) ,selectedBook, selectedTabIndex )}
             composable(Screens.Browse.screen){ BrowseScreen(viewModel = BrowseViewModel(application = applicationContext)) }
             composable(Screens.Timeline.screen){ TimelineScreen(viewModel = TimelineViewModel(application = applicationContext)) }
-            composable(Screens.Details.screen){ DetailsScreen(selectedBook = selectedBook, viewModel = DetailsViewModel(application = applicationContext))}
+            composable(Screens.Details.screen){ DetailsScreen(selectedBook = selectedBook, viewModel = DetailsViewModel(application = applicationContext,  repository = repository) )}
             composable(Screens.New.screen){ TabNewScreen(navController, selectedTabIndex, viewModel = TabNewViewModel(application = applicationContext), selectedBook) }
             composable(Screens.Reading.screen){ TabReadingScreen(navController, selectedTabIndex, viewModel = TabReadingViewModel(application = applicationContext), selectedBook ) }
             composable(Screens.Finished.screen){ TabFinishedScreen(navController, selectedTabIndex, viewModel = TabFinishedViewModel(application = applicationContext), selectedBook) }

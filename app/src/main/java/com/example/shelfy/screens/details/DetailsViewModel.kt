@@ -10,12 +10,12 @@ import com.example.shelfy.db.Shelf
 import com.example.shelfy.db.ShelfRepository
 
 
-class DetailsViewModel(application: Application) : AndroidViewModel(application) {
+class DetailsViewModel(application: Application, private val repository: ShelfRepository) : AndroidViewModel(application) {
     private val _selectedBook = MutableLiveData<Shelf?>()
     val selectedBook: LiveData<Shelf?> = _selectedBook
 
     private val database = AppDatabase.getDatabase(application)
-    private val repository = ShelfRepository(database.shelfDao())
+//    private val repository = ShelfRepository(database.shelfDao())
 
     fun updateBookStatus(id: String, status: String) {
         repository.updateBookStatus(id, status)
