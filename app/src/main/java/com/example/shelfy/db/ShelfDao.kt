@@ -30,5 +30,8 @@ interface ShelfDao {
     @Query("UPDATE shelf SET notes = :notes WHERE id = :id")
     fun updateBookNotes(id: String, notes: String)
 
+    @Query("UPDATE shelf SET finishedAt = :finishedAt WHERE id = :id")
+    fun updateFinishedDate(id: String, finishedAt: Long?)
+
 
 }

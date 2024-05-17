@@ -39,6 +39,7 @@ import com.example.shelfy.screens.home.tabs.tab_new.TabNewViewModel
 import com.example.shelfy.screens.home.tabs.tab_new.TabReadingScreen
 import com.example.shelfy.screens.home.tabs.tab_new.TabReadingViewModel
 import com.example.shelfy.screens.timeline.TimelineScreen
+import com.example.shelfy.screens.timeline.TimelineViewModel
 import com.example.shelfy.ui.theme.LibbyGreen
 
 
@@ -106,7 +107,7 @@ fun AppNavbar () {
             modifier = Modifier.padding(paddingValues)){
             composable(Screens.Home.screen){ HomeScreen(navController, viewModel = HomeViewModel(application = applicationContext) ,selectedBook, selectedTabIndex )}
             composable(Screens.Browse.screen){ BrowseScreen(viewModel = BrowseViewModel(application = applicationContext)) }
-            composable(Screens.Timeline.screen){ TimelineScreen() }
+            composable(Screens.Timeline.screen){ TimelineScreen(viewModel = TimelineViewModel(application = applicationContext)) }
             composable(Screens.Details.screen){ DetailsScreen(selectedBook = selectedBook, viewModel = DetailsViewModel(application = applicationContext))}
             composable(Screens.New.screen){ TabNewScreen(navController, selectedTabIndex, viewModel = TabNewViewModel(application = applicationContext), selectedBook) }
             composable(Screens.Reading.screen){ TabReadingScreen(navController, selectedTabIndex, viewModel = TabReadingViewModel(application = applicationContext), selectedBook ) }

@@ -40,5 +40,11 @@ class ShelfRepository(private val shelfDao: ShelfDao) {
         }
     }
 
+    fun updateFinishedDate(id: String, finishedAt: Long?) {
+        AppDatabase.databaseWriteExecutor.execute {
+            shelfDao.updateFinishedDate(id, finishedAt)
+        }
+    }
+
 
 }

@@ -54,6 +54,8 @@ import com.example.shelfy.db.Shelf
 import com.example.shelfy.screens.browse.BrowseViewModel
 import com.example.shelfy.screens.browse.NotesField
 import com.example.shelfy.ui.theme.LibbyGreen
+import java.sql.Date
+import java.text.SimpleDateFormat
 
 @Composable
 fun DetailsScreen(selectedBook: MutableState<Shelf?>, viewModel: DetailsViewModel) {
@@ -65,7 +67,6 @@ fun DetailsScreen(selectedBook: MutableState<Shelf?>, viewModel: DetailsViewMode
         }
     } }
     val notes = remember { mutableStateOf(book?.notes ?: "") }
-
 
     var selectedRating by remember { mutableStateOf(book?.rating ?: 0) } // Initialize with book's rating
 
@@ -82,11 +83,11 @@ fun DetailsScreen(selectedBook: MutableState<Shelf?>, viewModel: DetailsViewMode
         selectedRating = index + 1
         viewModel.updateBookRating(book?.id ?: "", selectedRating)
     }
+
     fun onNotesChanged(newNotes: String) {
         notes.value = newNotes
         book?.let { viewModel.updateBookNotes(it.id, newNotes) }
     }
-
 
     LazyColumn(
         modifier = Modifier
@@ -138,7 +139,7 @@ fun DetailsScreen(selectedBook: MutableState<Shelf?>, viewModel: DetailsViewMode
                         Text(text = status)
                     }
                 }
-                Column (
+                Column(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
@@ -187,6 +188,15 @@ fun DetailsScreen(selectedBook: MutableState<Shelf?>, viewModel: DetailsViewMode
                     }
 
                     NotesField(notes = notes.value, onNotesChanged = ::onNotesChanged)
+
+                    // Display finishedAt date if book is marked as finished
+                    if (book.status == "Finished" && book.finishedAt != null) {
+                        Text(
+                            text = "Finished: ${SimpleDateFormat("dd/MM/yyyy").format(Date(book.finishedAt!!))}",
+                            fontSize = 16.sp,
+                            modifier = Modifier.padding(8.dp)
+                        )
+                    }
                 }
 
             } else {
@@ -194,7 +204,7 @@ fun DetailsScreen(selectedBook: MutableState<Shelf?>, viewModel: DetailsViewMode
             }
         }
     }
-
 }
+
 
 
