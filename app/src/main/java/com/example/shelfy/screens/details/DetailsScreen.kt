@@ -64,6 +64,8 @@ fun DetailsScreen(selectedBook: MutableState<Shelf?>, viewModel: DetailsViewMode
             this[status] = book?.status == status
         }
     } }
+    val notes = remember { mutableStateOf(book?.notes ?: "") }
+
 
     var selectedRating by remember { mutableStateOf(book?.rating ?: 0) } // Initialize with book's rating
 
@@ -79,6 +81,10 @@ fun DetailsScreen(selectedBook: MutableState<Shelf?>, viewModel: DetailsViewMode
     fun onStarClicked(index: Int) {
         selectedRating = index + 1
         viewModel.updateBookRating(book?.id ?: "", selectedRating)
+    }
+    fun onNotesChanged(newNotes: String) {
+        notes.value = newNotes
+        book?.let { viewModel.updateBookNotes(it.id, newNotes) }
     }
 
 
@@ -180,7 +186,7 @@ fun DetailsScreen(selectedBook: MutableState<Shelf?>, viewModel: DetailsViewMode
                         }
                     }
 
-                    NotesField()
+                    NotesField(notes = notes.value, onNotesChanged = ::onNotesChanged)
                 }
 
             } else {

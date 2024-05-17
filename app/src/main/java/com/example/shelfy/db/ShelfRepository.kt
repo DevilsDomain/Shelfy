@@ -34,4 +34,11 @@ class ShelfRepository(private val shelfDao: ShelfDao) {
     }
 
 
+    fun updateBookNotes(id: String, notes: String) {
+        AppDatabase.databaseWriteExecutor.execute {
+            shelfDao.updateBookNotes(id, notes)
+        }
+    }
+
+
 }

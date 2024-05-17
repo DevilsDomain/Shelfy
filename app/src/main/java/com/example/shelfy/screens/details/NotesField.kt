@@ -17,7 +17,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun NotesField() {
+fun NotesField(notes: String, onNotesChanged: (String) -> Unit) {
     val text = remember { mutableStateOf("") }
     Box(
         modifier = Modifier
@@ -26,10 +26,8 @@ fun NotesField() {
     ) {
         // Search input field
         TextField(
-            value = text.value,
-            onValueChange = { value ->
-                text.value = value
-            },
+            value = notes,
+            onValueChange = { onNotesChanged(it) },
             keyboardOptions = KeyboardOptions.Default.copy(
                 imeAction = ImeAction.Done
             ),
@@ -37,11 +35,9 @@ fun NotesField() {
                 .fillMaxWidth()
                 .padding(8.dp)
                 .clip(RoundedCornerShape(8.dp))
-                .height(200.dp)
-            ,
+                .height(200.dp),
             placeholder = { Text("Notes...") },
-            singleLine = false,
-
+            singleLine = false
         )
     }
 }

@@ -25,4 +25,9 @@ class DetailsViewModel(application: Application) : AndroidViewModel(application)
         repository.updateBookRating(bookId, rating)
     }
 
+    fun updateBookNotes(bookId: String, notes: String) {
+        repository.updateBookNotes(bookId, notes)
+    }
+
+
 }
