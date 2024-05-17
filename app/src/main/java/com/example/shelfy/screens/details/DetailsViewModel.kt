@@ -17,8 +17,12 @@ class DetailsViewModel(application: Application) : AndroidViewModel(application)
     private val database = AppDatabase.getDatabase(application)
     private val repository = ShelfRepository(database.shelfDao())
 
-
     fun updateBookStatus(bookId: String, newStatus: String) {
         repository.updateBookStatus(bookId, newStatus)
     }
+
+    fun updateBookRating(bookId: String, rating: Int) {
+        repository.updateBookRating(bookId, rating)
+    }
+
 }

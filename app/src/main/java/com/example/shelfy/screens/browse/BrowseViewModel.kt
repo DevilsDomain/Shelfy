@@ -30,7 +30,9 @@ class BrowseViewModel(application: Application) : AndroidViewModel(application) 
             description = book.volumeInfo?.description ?: "",
             imageUrl = book.volumeInfo?.imageLinks?.thumbnail ?: "",
             status = "New",
-            finishedAt = null
+            finishedAt = null,
+            rating = null,
+            notes = null
         )
         repository.insertBook(shelf)
     }

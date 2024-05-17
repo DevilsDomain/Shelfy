@@ -1,5 +1,6 @@
 package com.example.shelfy.db
 
+
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -18,5 +19,7 @@ data class Shelf(
     @ColumnInfo(name = "status")
     var status: String? = "New",
     @ColumnInfo(name = "finishedAt")
-    val finishedAt: Long? = null
+    val finishedAt: Long? = null,
+    var rating: Int? = null,
+    var notes: String? = null
 )

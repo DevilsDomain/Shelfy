@@ -1,5 +1,6 @@
 package com.example.shelfy.db
 
+
 import androidx.lifecycle.LiveData
 
 class ShelfRepository(private val shelfDao: ShelfDao) {
@@ -25,5 +26,12 @@ class ShelfRepository(private val shelfDao: ShelfDao) {
             shelfDao.deleteBookById(id)
         }
     }
+
+    fun updateBookRating(id: String, rating: Int) {
+        AppDatabase.databaseWriteExecutor.execute {
+            shelfDao.updateBookRating(id, rating)
+        }
+    }
+
 
 }

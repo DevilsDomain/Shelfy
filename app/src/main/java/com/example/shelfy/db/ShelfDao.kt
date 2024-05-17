@@ -1,5 +1,6 @@
 package com.example.shelfy.db
 
+
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
@@ -10,8 +11,10 @@ import androidx.room.Query
 interface ShelfDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(book: Shelf)
+
     @Query("SELECT * FROM shelf WHERE status = :status")
     fun getBooksByStatus(status: String): LiveData<List<Shelf>>
+
     @Query("SELECT * FROM shelf")
     fun getAllBooks(): LiveData<List<Shelf>>
 
@@ -20,4 +23,8 @@ interface ShelfDao {
 
     @Query("UPDATE shelf SET status = :status WHERE id = :id")
     fun updateBookStatus(id: String, status: String)
+
+    @Query("UPDATE shelf SET rating = :rating WHERE id = :id")
+    fun updateBookRating(id: String, rating: Int)
+
 }

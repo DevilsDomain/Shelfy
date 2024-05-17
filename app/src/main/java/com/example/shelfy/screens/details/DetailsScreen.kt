@@ -1,6 +1,7 @@
 package com.example.shelfy.screens.details
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,8 +12,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.Checkbox
@@ -34,6 +38,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter.Companion.tint
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -59,6 +65,8 @@ fun DetailsScreen(selectedBook: MutableState<Shelf?>, viewModel: DetailsViewMode
         }
     } }
 
+    var selectedRating by remember { mutableStateOf(book?.rating ?: 0) } // Initialize with book's rating
+
     fun onStatusRadioButtonClicked(status: String) {
         book?.let {
             viewModel.updateBookStatus(it.id, status)
@@ -66,6 +74,11 @@ fun DetailsScreen(selectedBook: MutableState<Shelf?>, viewModel: DetailsViewMode
         initialStatus.forEach { (key, _) ->
             initialStatus[key] = key == status
         }
+    }
+
+    fun onStarClicked(index: Int) {
+        selectedRating = index + 1
+        viewModel.updateBookRating(book?.id ?: "", selectedRating)
     }
 
 
@@ -149,20 +162,24 @@ fun DetailsScreen(selectedBook: MutableState<Shelf?>, viewModel: DetailsViewMode
                     )
 
                     Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 16.dp),
+                        modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.Center,
                     ) {
-                        repeat(5) {
+                        val maxRating = 5 // Maximum rating value
+
+                        repeat(maxRating) { index ->
                             Icon(
-                                painter = painterResource(id = R.drawable.star_empty),
-                                contentDescription = "Empty Star",
+                                imageVector = Icons.Default.Star,
+                                contentDescription = "Star",
+                                tint = if (index < selectedRating) LibbyGreen else Color.LightGray,
                                 modifier = Modifier
-                                    .padding(horizontal = 5.dp)
+                                    .padding(horizontal = 5.dp, vertical = 20.dp)
+                                    .clickable { onStarClicked(index) }
+                                    .size(40.dp)
                             )
                         }
                     }
+
                     NotesField()
                 }
 
@@ -173,6 +190,5 @@ fun DetailsScreen(selectedBook: MutableState<Shelf?>, viewModel: DetailsViewMode
     }
 
 }
-
 
 

@@ -11,6 +11,4 @@ class TabNewViewModel(application: Application) : AndroidViewModel(application) 
     val database = AppDatabase.getDatabase(application)
     val repository = ShelfRepository(database.shelfDao())
     val newBooks: LiveData<List<Shelf>> = repository.newBooks
-//    val readingBooks: LiveData<List<Shelf>> = repository.readingBooks
-//    val finishedBooks: LiveData<List<Shelf>> = repository.finishedBooks
 }

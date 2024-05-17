@@ -118,4 +118,3 @@ fun BookSearchResult( viewModel: BrowseViewModel, item: Item) {
         }
     }
 }
-
