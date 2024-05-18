@@ -19,7 +19,6 @@ abstract class AppDatabase : RoomDatabase() {
 
         private val MIGRATION_2_3 = object : Migration(2, 3) {
             override fun migrate(database: SupportSQLiteDatabase) {
-                // Create the new table with the updated schema
                 database.execSQL(
                     "CREATE TABLE IF NOT EXISTS Shelf_new (" +
                             "id INTEGER PRIMARY KEY NOT NULL," +
@@ -30,21 +29,18 @@ abstract class AppDatabase : RoomDatabase() {
                             "status TEXT," +
                             "rating INTEGER," +
                             "notes TEXT," +
-                            "finishedAt INTEGER" + // Assuming finishedDate is stored as a Unix timestamp
+                            "finishedAt INTEGER" +
                             ")"
                 )
 
-                // Copy data from the old table to the new one
                 database.execSQL(
                     "INSERT INTO Shelf_new (id, title, author, description, imageUrl, status, rating, notes, finishedAt) " +
                             "SELECT id, title, author, description, imageUrl, status, rating, notes, finishedAt " +
                             "FROM shelf"
                 )
 
-                // Drop the old table
                 database.execSQL("DROP TABLE shelf")
 
-                // Rename the new table to the original table name
                 database.execSQL("ALTER TABLE Shelf_new RENAME TO shelf")
             }
         }

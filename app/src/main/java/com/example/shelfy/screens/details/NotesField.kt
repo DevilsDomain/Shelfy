@@ -24,7 +24,6 @@ fun NotesField(notes: String, onNotesChanged: (String) -> Unit) {
             .fillMaxWidth()
             .padding(16.dp)
     ) {
-        // Search input field
         TextField(
             value = notes,
             onValueChange = { onNotesChanged(it) },

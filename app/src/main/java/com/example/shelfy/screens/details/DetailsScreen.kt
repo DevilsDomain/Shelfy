@@ -17,41 +17,31 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
-import androidx.compose.material3.Checkbox
-import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter.Companion.tint
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
-import com.example.shelfy.R
 import com.example.shelfy.db.Shelf
-import com.example.shelfy.screens.browse.BrowseViewModel
 import com.example.shelfy.screens.browse.NotesField
 import com.example.shelfy.ui.theme.LibbyGreen
 import java.sql.Date
@@ -68,7 +58,7 @@ fun DetailsScreen(selectedBook: MutableState<Shelf?>, viewModel: DetailsViewMode
     } }
     val notes = remember { mutableStateOf(book?.notes ?: "") }
 
-    var selectedRating by remember { mutableStateOf(book?.rating ?: 0) } // Initialize with book's rating
+    var selectedRating by remember { mutableStateOf(book?.rating ?: 0) }
 
     fun onStatusRadioButtonClicked(status: String) {
         book?.let {
@@ -143,7 +133,6 @@ fun DetailsScreen(selectedBook: MutableState<Shelf?>, viewModel: DetailsViewMode
                     modifier = Modifier.fillMaxWidth(),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    // Title Text
                     Text(
                         text = book!!.title ?: "",
                         fontSize = 30.sp,
@@ -151,7 +140,6 @@ fun DetailsScreen(selectedBook: MutableState<Shelf?>, viewModel: DetailsViewMode
                         textAlign = TextAlign.Center,
                     )
 
-                    // Author Text
                     Text(
                         text = book!!.author ?: "",
                         fontSize = 22.sp,
@@ -160,7 +148,6 @@ fun DetailsScreen(selectedBook: MutableState<Shelf?>, viewModel: DetailsViewMode
                         modifier = Modifier.padding(bottom = 10.dp)
                     )
 
-                    // Synopsis Text
                     Text(
                         text = book!!.description ?: "",
                         fontSize = 16.sp,
@@ -172,7 +159,7 @@ fun DetailsScreen(selectedBook: MutableState<Shelf?>, viewModel: DetailsViewMode
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.Center,
                     ) {
-                        val maxRating = 5 // Maximum rating value
+                        val maxRating = 5
 
                         repeat(maxRating) { index ->
                             Icon(
@@ -189,7 +176,6 @@ fun DetailsScreen(selectedBook: MutableState<Shelf?>, viewModel: DetailsViewMode
 
                     NotesField(notes = notes.value, onNotesChanged = ::onNotesChanged)
 
-                    // Display finishedAt date if book is marked as finished
                     if (book.status == "Finished" && book.finishedAt != null) {
                         Text(
                             text = "Finished: ${SimpleDateFormat("dd/MM/yyyy").format(Date(book.finishedAt!!))}",

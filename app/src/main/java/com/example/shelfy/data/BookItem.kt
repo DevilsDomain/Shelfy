@@ -73,9 +73,9 @@ fun BookItem(
         val painter = rememberAsyncImagePainter(
             model = ImageRequest.Builder(LocalContext.current)
                 .data(book.imageUrl)
-//                .placeholder(R.drawable.placeholder) // Placeholder image
-//                .error(R.drawable.error_image) // Error image
-                .crossfade(true) // Enable crossfade animation
+                .placeholder(R.drawable.placeholder) // Placeholder image
+                .error(R.drawable.error_image) // Error image
+                .crossfade(true)
                 .build()
         )
 

@@ -4,7 +4,6 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.example.shelfy.api.GoogleBooksAPIProvider
 import com.example.shelfy.db.AppDatabase
 import com.example.shelfy.db.Shelf
@@ -38,7 +37,6 @@ class BrowseViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     fun searchBooks(query: String) {
-        // Assuming you have access to the API key
         val apiKey = "AIzaSyD0jak8NAVY_dGLIs3EAqiNysNkoQBhcVs"
 
         googleBooksAPIProvider.searchBooks(query, apiKey, object : GoogleBooksResult {
@@ -48,7 +46,7 @@ class BrowseViewModel(application: Application) : AndroidViewModel(application) 
             }
 
             override fun onDataFetchedFailed() {
-                // Handle data fetching failure
+
             }
         })
     }

@@ -23,21 +23,17 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
-import coil.compose.rememberImagePainter
 import coil.request.ImageRequest
-import com.example.shelfy.data.Book
 import com.example.shelfy.model.Item
-import com.example.shelfy.model.VolumeInfo
 
 @Composable
 fun BookSearchResult( viewModel: BrowseViewModel, item: Item) {
     Card(
-        shape = MaterialTheme.shapes.medium, // Rounded corners shape
+        shape = MaterialTheme.shapes.medium,
         modifier = Modifier
             .fillMaxWidth()
             .height(350.dp)
@@ -118,3 +114,4 @@ fun BookSearchResult( viewModel: BrowseViewModel, item: Item) {
         }
     }
 }
+

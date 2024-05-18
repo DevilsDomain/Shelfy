@@ -4,7 +4,6 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.map
 import com.example.shelfy.db.AppDatabase
 import com.example.shelfy.db.Shelf
 import com.example.shelfy.db.ShelfRepository
@@ -15,7 +14,6 @@ class DetailsViewModel(application: Application, private val repository: ShelfRe
     val selectedBook: LiveData<Shelf?> = _selectedBook
 
     private val database = AppDatabase.getDatabase(application)
-//    private val repository = ShelfRepository(database.shelfDao())
 
     fun updateBookStatus(id: String, status: String) {
         repository.updateBookStatus(id, status)
